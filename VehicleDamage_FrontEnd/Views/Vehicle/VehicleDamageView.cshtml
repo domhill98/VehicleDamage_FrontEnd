@@ -1,0 +1,15 @@
+﻿@model VehicleDamage_FrontEnd.Models.DamageHistoryModel
+@{
+    ViewData["Title"] = "VehicalDamageView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Damage Images</h1>
+<hr />
+
+@Html.Partial("_DamageImages", Model.images)
+
+<hr />
+<div>
+    @Html.ActionLink("Back to Vehicle", "Details", "Vehicle", new { lPlate = Model.lplateNum })
+</div>

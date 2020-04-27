@@ -1,0 +1,15 @@
+﻿@model IEnumerable<VehicleDamage_FrontEnd.Models.DTOs.ImageDTO>
+
+@if (Model.Count() == 0)
+{
+    <div class="w3-panel w3-yellow w3-center">
+        <h3>Oops!There seems to be no images.</h3>
+    </div>
+}
+else
+{
+    foreach (VehicleDamage_FrontEnd.Models.DTOs.ImageDTO image in Model)
+    {
+        <img src="@image.imageStream" width="291" height="285" />
+    }
+}

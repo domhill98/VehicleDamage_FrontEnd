@@ -1,0 +1,131 @@
+﻿@model VehicleDamage_FrontEnd.Models.Staff.VehIndexModel
+
+@{
+    ViewData["Title"] = "Vehicle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Vehicles</h1>
+<hr />
+
+
+@using (Html.BeginForm("Index", "Vehicle", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="lPlateSearch" class="control-label"></label><br />
+                @Html.TextBoxFor(x => x.lPlateSearch)
+                <span asp-validation-for="lPlateSearch" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="selectedMake" class="control-label"></label><br />
+                @Html.DropDownListFor(x => x.selectedMake, Model.makeList)
+                <span asp-validation-for="selectedMake" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="selectedState" class="control-label"></label><br />
+                @Html.DropDownListFor(y => y.selectedState, Model.stateList)
+                <span asp-validation-for="selectedState" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <br />
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+
+
+
+
+}
+
+
+<p class="w3-right">
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.vehicleList.FirstOrDefault().licenceNum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.vehicleList.FirstOrDefault().state)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.vehicleList.FirstOrDefault().make)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.vehicleList.FirstOrDefault().model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.vehicleList.FirstOrDefault().colour)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.vehicleList.FirstOrDefault().active)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var concerns in Model.vehicleWithConcernList)
+        {
+            <tr class="w3-red">
+                <td>
+                    @Html.DisplayFor(modelItem => concerns.licenceNum)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => concerns.state)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => concerns.make.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => concerns.model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => concerns.colour)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => concerns.active)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { lPlate = concerns.licenceNum })
+                </td>
+            </tr>
+        }
+        @foreach (var item in Model.vehicleList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.licenceNum)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.state)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.make.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.colour)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.active)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { lPlate = item.licenceNum })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

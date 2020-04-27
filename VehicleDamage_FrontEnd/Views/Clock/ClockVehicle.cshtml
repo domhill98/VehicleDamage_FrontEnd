@@ -1,0 +1,100 @@
+﻿@model VehicleDamage_FrontEnd.Models.Clock.ClockModel
+
+@{
+    ViewData["Title"] = "ClockVehicle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Clock Vehicle</h1>
+<hr />
+
+@if (Model.clock == null)
+{
+    <form asp-action="ClockVehicle">
+        <div class="row">
+            <div class="col-md-4">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="vehicle.licenceNum" class="control-label"></label>
+                    <input asp-for="vehicle.licenceNum" class="form-control" required />
+                    <span asp-validation-for="vehicle.licenceNum" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </form>
+
+}
+else
+{
+
+    <form asp-action="ConfirmClockVehicle" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <label asp-for="vehicle.licenceNum" class="control-label"></label>
+                <input asp-for="vehicle.licenceNum" class="form-control" readonly="readonly" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <label asp-for="vehicle.make" class="control-label"></label>
+                <input asp-for="vehicle.make.name" class="form-control" readonly="readonly" />
+            </div>
+            <div class="col-md-4 form-group">
+                <label asp-for="vehicle.model" class="control-label"></label>
+                <input asp-for="vehicle.model" class="form-control" readonly="readonly" />
+            </div>
+            <div class="col-md-4 form-group">
+                <label asp-for="vehicle.colour" class="control-label"></label>
+                <input asp-for="vehicle.colour" class="form-control" readonly="readonly" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <label asp-for="clock" class="control-label"></label>
+                <input asp-for="clock" class="form-control" readonly="readonly" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <label asp-for="time" class="control-label"></label>
+                <input asp-for="time" class="form-control" readonly="readonly" />
+            </div>
+        </div>
+
+        @if (Model.clock == "In")
+        {
+
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <label asp-for="imgs" class="control-label"></label>
+                    <input asp-for="imgs" multiple required />
+                    <span asp-validation-for="imgs" class="text-danger"></span>
+
+                </div>
+            </div>
+        }
+
+        <input asp-for="vehicle.active" hidden="hidden" />
+
+
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <input type="submit" value="Confirm" class="btn btn-primary" />
+            </div>
+        </div>
+    </form>
+}
+
+
+<div>
+    <a asp-action="ClockVehicle">Restart</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,49 @@
+﻿@model VehicleDamage_FrontEnd.Models.Clock.ClockModel
+@{
+    ViewData["Title"] = "ClockConfirmed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>ClockConfirmed</h1>
+<hr />
+
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="vehicle.licenceNum" class="control-label"></label>
+            <input asp-for="vehicle.licenceNum" class="form-control" readonly />
+        </div>
+    </div>
+</div>
+<hr />
+
+@if (Model.clock == "Inconclusive")
+{
+    <div class="form-group">
+        <p>It looks like your system could not guarantee a certain result.</p>
+        <p>This has been flagged to the appropriate member of Staff who will follow up accordingly.</p>
+    </div>
+}
+else if (Model.clock == "Damaged")
+{
+    <div class="form-group">
+        <p>Oops. It looks like the vehicle is damaged.</p>
+        <p>This has been flagged to the appropriate member of Staff who will follow up accordingly.</p>
+    </div>
+}
+else
+{
+    <div class="form-group">
+        <p>Thank you for completeing the procedure.</p>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <button class="btn btn-primary" onclick="">Home</button>
+        </div>
+    </div>
+</div>
+

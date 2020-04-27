@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Vehicle Damage</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
+    </environment>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body, h1, h2, h3, h4, h5, h6 {
+            font-family: "Raleway", sans-serif
+        }
+
+        body, html {
+            height: 100%;
+            line-height: 1.8;
+        }
+
+        .w3-bar .w3-button {
+            padding: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <!-- Main Navbar -->
+        <div class="w3-top">
+            <div class="w3-bar w3-white w3-card" id="myNavbar">
+                <a href="@Url.Action("Index", "Home")" class="w3-bar-item w3-button w3-wide">Vehicle Damage</a>
+                <!-- Right-sided navbar links -->
+                <div class="w3-right w3-hide-small">
+                    <a href="@Url.Action("ClockVehicle", "Clock")" class="w3-bar-item w3-button">Clock Vehicle</a>
+                    <div class="w3-dropdown-hover">
+                        <button class="w3-button" title="Notifications">Staff <i class="fa fa-caret-down"></i></button>
+                        <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+                            <a href="@Url.Action("Index", "Vehicle")" class="w3-bar-item w3-button">Vehicles</a>
+                            <a href="#" class="w3-bar-item w3-button">Drivers</a>
+                        </div>
+                    </div>
+                    <div class="w3-dropdown-hover">
+                        <button class="w3-button" title="Notifications">Admin <i class="fa fa-caret-down"></i></button>
+                        <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+                            <a href="#" class="w3-bar-item w3-button">Staff</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+                <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+                    <i class="fa fa-bars"></i>
+                </a>
+
+            </div>
+
+            <!-- Sidebar on small screens when clicking the menu icon -->
+            <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
+                <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
+                <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">Clock Vehicle</a>
+                <a href="#team" onclick="w3_close()" class="w3-bar-item w3-button">Vehicles</a>
+                <a href="#work" onclick="w3_close()" class="w3-bar-item w3-button">Drivers</a>
+                <a href="#pricing" onclick="w3_close()" class="w3-bar-item w3-button">Staff</a>
+            </nav>
+        </div>
+    </header>
+
+
+    <div class="container w3-content w3-padding" style="margin-top:80px">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - VehicleDamage_FrontEnd - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
+        </script>
+    </environment>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+
+    <script>
+
+        // Toggle between showing and hiding the sidebar when clicking the menu icon
+        var mySidebar = document.getElementById("mySidebar");
+
+        function w3_open() {
+            if (mySidebar.style.display === 'block') {
+                mySidebar.style.display = 'none';
+            } else {
+                mySidebar.style.display = 'block';
+            }
+        }
+
+        // Close the sidebar with the close button
+        function w3_close() {
+            mySidebar.style.display = "none";
+        }
+    </script>
+
+
+</body>
+</html>

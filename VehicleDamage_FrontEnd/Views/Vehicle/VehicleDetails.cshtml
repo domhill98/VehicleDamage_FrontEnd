@@ -1,0 +1,172 @@
+﻿@model VehicleDamage_FrontEnd.Models.VehicleDetailModel
+
+@{
+    ViewData["Title"] = "VehicleDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>@Html.DisplayFor(model => model.licenceNum)</h4>
+    <div class="w3-right">@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ })</div>
+    <hr />
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.state)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.state)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.model)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.model)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.colour)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.colour)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.active)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.active)
+        </dd>
+    </dl>
+
+    <br />
+    <h4>Clock History</h4>
+    <hr />
+
+    @if (Model.clockHistory.Count() == 0)
+    {
+        <div class="w3-panel w3-yellow w3-center">
+            <h3>This Vehicle has no Clock History.</h3>
+        </div>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.clockHistory.FirstOrDefault().driverID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.clockHistory.FirstOrDefault().state)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.clockHistory.FirstOrDefault().time)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var clock in Model.clockHistory)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => clock.driverID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => clock.state)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => clock.time)
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+
+
+    <br />
+    <h4>Damage History</h4>
+    <hr />
+
+    @if (Model.damageHistory.Count() == 0)
+    {
+        <div class="w3-panel w3-yellow w3-center">
+            <h3>This Vehicle has no Damage History.</h3>
+        </div>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.damageHistory.FirstOrDefault().driverID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.damageHistory.FirstOrDefault().time)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.damageHistory.FirstOrDefault().state)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.damageHistory.FirstOrDefault().resolved)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var damage in Model.damageHistory)
+                {
+
+                    if (damage.resolved == false)
+                    {
+                        <tr class="w3-red">
+                            <td>
+                                @Html.DisplayFor(modelItem => damage.driverID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => damage.time)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => damage.state)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => damage.resolved)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Resolve", "ViewDamageImages", damage)
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => damage.driverID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => damage.time)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => damage.state)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => damage.resolved)
+                            </td>
+                            <td>
+                                @Html.ActionLink("View", "ViewDamageImages", damage)
+                            </td>
+                        </tr>
+                    }
+
+                }
+            </tbody>
+        </table>
+    }
+    <hr />
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
