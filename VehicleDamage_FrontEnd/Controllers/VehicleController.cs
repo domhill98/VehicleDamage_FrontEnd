@@ -99,14 +99,19 @@ namespace VehicleDamage_FrontEnd.Controllers
 
         public async Task<IActionResult> ResolveDamages(DamageHistoryModel damageModel)
         {
-            return null;
-
-
             //Flip resolved to true
+            damageModel.resolved = true;
+
+            //Update the db
+            string response = await _beService.UpdateDamageHistoryAsync(DamageHistoryDTO.CreateDTO(damageModel));
+
+            if(response != "Success") 
+            {
+                return RedirectToAction("ViewDamageImages", damageModel);
+            }
 
 
-
-
+            return RedirectToAction("Details", damageModel.lplateNum);
         }
     }
 }

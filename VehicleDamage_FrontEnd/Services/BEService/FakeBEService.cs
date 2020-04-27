@@ -106,5 +106,15 @@ namespace VehicleDamage_FrontEnd.Services.BEService
             return Task.FromResult("Success");
         }
 
+        public Task<string> UpdateDamageHistoryAsync(DamageHistoryDTO dhDTO) 
+        {
+            if (dhDTO == null)
+            {
+                return Task.FromResult("dto passed as null");
+            }
+
+            return Task.FromResult("Success");
+        }
+
     }
 }

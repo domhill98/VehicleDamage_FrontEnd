@@ -1,1 +1,40 @@
 ﻿@model VehicleDamage_FrontEnd.Models.DamageHistoryModel
+@{
+    ViewData["Title"] = "VehicleDamageResolve";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    DamageHistoryModel damagedModel = Model;
+    damagedModel.state = "Damaged";
+    DamageHistoryModel undamagedModel = Model;
+    undamagedModel.state = "Undamaged";
+}
+
+
+<h1>Damage Images</h1>
+<hr />
+
+@Html.Partial("_DamageImages", Model.images)
+
+<hr />
+
+<h3>Is this Vehicle Damaged?</h3>
+
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <input type="button" value="Yes" class="btn btn-primary" onclick="location.href='@Url.Action("ResolveDamages", "Vehicle", damagedModel)'" />
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <input type="button" value="No" class="btn btn-primary w3-red" onclick="location.href='@Url.Action("ResolveDamages", "Vehicle", undamagedModel)'" />
+        </div>
+    </div>
+</div>
+
+
+
+<div>
+    @Html.ActionLink("Back to Vehicle", "Details", "Vehicle", new { lPlate = Model.lplateNum
+        })
+</div>

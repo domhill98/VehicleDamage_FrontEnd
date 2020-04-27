@@ -19,6 +19,8 @@ namespace VehicleDamage_FrontEnd.Services.BEService
 
         Task<string> UpdateVehicleAsync(VehicleDTO vehDTO);
 
+        Task<string> UpdateDamageHistoryAsync(DamageHistoryDTO dhDTO);
+
         Task<string> InsertClockHistoryAsync(ClockHistoryDTO hisDTO);
 
         Task<string> InsertDamageHistoryAsync(DamageHistoryDTO hisDTO);
