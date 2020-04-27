@@ -57,7 +57,7 @@ namespace VehicleDamage_FrontEnd
 
 
                 services.AddTransient<IBEService, FakeBEService>();
-                _ = services.AddTransient<IBlobService, FakeBlobService>();
+                services.AddTransient<IBlobService, FakeBlobService>();
 
             }
             else

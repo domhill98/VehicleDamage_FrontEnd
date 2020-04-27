@@ -49,13 +49,13 @@ namespace VehicleDamage_FrontEnd.Controllers
 
                 if (dto == null)
                 {
-                    ModelState.AddModelError("licenceNum", "Vehicle not found.");
+                    ModelState.AddModelError("vehicle.licenceNum", "Vehicle not found.");
                     return View(model);
                 }
                 //If there are any currently unresolved damage cases on the vehicle
                 else if (dto.damageHistory != null && dto.damageHistory.Where(x => x.resolved == false).ToList().Count() != 0)
                 {
-                    ModelState.AddModelError("licenceNum", "Vehicle currently unavailable due to potential damages. Please contact a member of staff.");
+                    ModelState.AddModelError("vehicle.licenceNum", "Vehicle currently unavailable due to potential damages. Please contact a member of staff.");
                     return View(model);
                 }
 
