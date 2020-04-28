@@ -11,6 +11,10 @@ namespace VehicleDamage_FrontEnd.Services.BEService
     {
         Task<VehicleDTO> GetVehicleAsync(string lplateNum);
 
+        Task<IEnumerable<ClockHistoryDTO>> GetClockHistoriesAsync(string lplateNum);
+
+        Task<IEnumerable<DamageHistoryDTO>> GetDamageAsync(string lplateNum);
+
         Task<IEnumerable<VehicleDTO>> GetVehiclesAsync(VehFilterAPI apiModel);
 
 

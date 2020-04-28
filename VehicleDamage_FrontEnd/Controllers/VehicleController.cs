@@ -41,7 +41,7 @@ namespace VehicleDamage_FrontEnd.Controllers
                 vehicles = VehicleModel.CreateModelNumerable(vehicleDTOs);
 
                 //Create seperate list for vehicles with damage concerns
-                vehicleConcern = vehicles.Where(x => x.damageHistory.Any(r => r.resolved == false)).ToList();
+                vehicleConcern = vehicles.Where(x => x.state == "Under Investigation").ToList();
                 //Drop those in the concern list
                 vehicles = vehicles.Except(vehicleConcern);
 
@@ -68,7 +68,9 @@ namespace VehicleDamage_FrontEnd.Controllers
         {
 
             VehicleDTO dto = await _beService.GetVehicleAsync(lPlate);
-            VehicleDetailModel model = VehicleDetailModel.CreateModel(dto);
+            IEnumerable<ClockHistoryDTO> clkdtos = await _beService.GetClockHistoriesAsync(lPlate);
+            IEnumerable<DamageHistoryDTO> dmgdtos = await _beService.GetDamageAsync(lPlate);
+            VehicleDetailModel model = VehicleDetailModel.CreateModel(dto, dmgdtos, clkdtos);
 
             return View("VehicleDetails", model);
         }
@@ -109,6 +111,16 @@ namespace VehicleDamage_FrontEnd.Controllers
             {
                 return RedirectToAction("ViewDamageImages", damageModel);
             }
+
+            //Set the vehicle state to in
+            VehicleDTO veh = await _beService.GetVehicleAsync(damageModel.lplateNum);
+            veh.state = "In";
+            response = await _beService.UpdateVehicleAsync(veh);
+            if (response != "Success")
+            {
+                return RedirectToAction("Index");
+            }
+
 
 
             return RedirectToAction("Details", damageModel.lplateNum);

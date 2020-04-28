@@ -28,7 +28,7 @@ namespace VehicleDamage_FrontEnd.Models
 
         public bool active { get; set; }
 
-        public virtual IEnumerable<DamageHistoryDTO> damageHistory { get; set; }
+        //public virtual IEnumerable<DamageHistoryDTO> damageHistory { get; set; }
 
         public static VehicleModel CreateModel(VehicleDTO dto)
         {
@@ -39,9 +39,7 @@ namespace VehicleDamage_FrontEnd.Models
                 make = MakeModel.CreateModel(dto.make),
                 state = dto.state,
                 colour = dto.colour,
-                active = dto.active,
-                damageHistory = dto.damageHistory
-
+                active = dto.active
             };
 
             return newModel;

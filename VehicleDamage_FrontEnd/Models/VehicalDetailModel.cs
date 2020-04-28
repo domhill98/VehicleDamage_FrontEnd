@@ -9,8 +9,9 @@ namespace VehicleDamage_FrontEnd.Models
     public class VehicleDetailModel : VehicleModel
     {
         public virtual IEnumerable<ClockHistoryModel> clockHistory { get; set; }
+        public virtual IEnumerable<DamageHistoryModel> damageHistory { get; set; }
 
-        public new static VehicleDetailModel CreateModel(VehicleDTO dto)
+        public new static VehicleDetailModel CreateModel(VehicleDTO dto, IEnumerable<DamageHistoryDTO> dmgHistory, IEnumerable<ClockHistoryDTO> clkHistory)
         {
             VehicleDetailModel newModel = new VehicleDetailModel()
             {
@@ -20,8 +21,8 @@ namespace VehicleDamage_FrontEnd.Models
                 state = dto.state,
                 colour = dto.colour,
                 active = dto.active,
-                damageHistory = dto.damageHistory,
-                clockHistory = ClockHistoryModel.CreateModelNumerable(dto.clockHistory)
+                damageHistory = DamageHistoryModel.CreateModelNumerable(dmgHistory).OrderByDescending(x => x.time),
+                clockHistory = ClockHistoryModel.CreateModelNumerable(clkHistory).OrderByDescending(x => x.time)
             };
 
             return newModel;

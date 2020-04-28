@@ -53,7 +53,7 @@ namespace VehicleDamage_FrontEnd.Controllers
                     return View(model);
                 }
                 //If there are any currently unresolved damage cases on the vehicle
-                else if (dto.damageHistory != null && dto.damageHistory.Where(x => x.resolved == false).ToList().Count() != 0)
+                else if (dto.state != "Under Investigation")
                 {
                     ModelState.AddModelError("vehicle.licenceNum", "Vehicle currently unavailable due to potential damages. Please contact a member of staff.");
                     return View(model);
@@ -147,6 +147,16 @@ namespace VehicleDamage_FrontEnd.Controllers
                                 return RedirectToAction("ClockVehicle");
                             }
 
+                            //Update Vehicle with new state
+                            cModel.vehicle.state = "Under Investigation";
+                            VehicleDTO newVehDto = VehicleDTO.CreateDTO(cModel.vehicle);
+                            updateResponse = await _vehicleService.UpdateVehicleAsync(newVehDto);
+                            if (updateResponse != "Success")
+                            {
+                                return RedirectToAction("ClockVehicle");
+                            }
+
+
                             //Return back to view as there is no point testing the rest of the images
                             return View("ClockConfirmed", cModel);
                         }
@@ -167,6 +177,16 @@ namespace VehicleDamage_FrontEnd.Controllers
 
                             //Save Images to the blob storage.
                             updateResponse = await BlobService.UploadImage(newImageDTO);
+                            if (updateResponse != "Success")
+                            {
+                                return RedirectToAction("ClockVehicle");
+                            }
+
+
+                            //Update Vehicle with new state
+                            cModel.vehicle.state = "Under Investigation";
+                            VehicleDTO newVehDto = VehicleDTO.CreateDTO(cModel.vehicle);
+                            updateResponse = await _vehicleService.UpdateVehicleAsync(newVehDto);
                             if (updateResponse != "Success")
                             {
                                 return RedirectToAction("ClockVehicle");
@@ -195,6 +215,16 @@ namespace VehicleDamage_FrontEnd.Controllers
 
                         //Save Images to the blob storage.
                         updateResponse = await BlobService.UploadImage(newImageDTO);
+                        if (updateResponse != "Success")
+                        {
+                            return RedirectToAction("ClockVehicle");
+                        }
+
+
+                        //Update Vehicle with new state
+                        cModel.vehicle.state = "Under Investigation";
+                        VehicleDTO newVehDto = VehicleDTO.CreateDTO(cModel.vehicle);
+                        updateResponse = await _vehicleService.UpdateVehicleAsync(newVehDto);
                         if (updateResponse != "Success")
                         {
                             return RedirectToAction("ClockVehicle");

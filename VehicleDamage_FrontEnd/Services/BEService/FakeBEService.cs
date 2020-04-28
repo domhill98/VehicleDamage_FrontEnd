@@ -21,18 +21,28 @@ namespace VehicleDamage_FrontEnd.Services.BEService
         private static readonly DamageHistoryDTO[] _damagehistories =
     {
                 new DamageHistoryDTO { Id = Guid.NewGuid(), driverID = Guid.NewGuid(), lplateNum = "1234", time = DateTime.Now, resolved = false, state = "Pending"},
-                new DamageHistoryDTO { Id = Guid.NewGuid(), driverID = Guid.NewGuid(), lplateNum = "2345", time = DateTime.Now, resolved = false, state = "Pending"},
+                new DamageHistoryDTO { Id = Guid.NewGuid(), driverID = Guid.NewGuid(), lplateNum = "2345", time = DateTime.Now.AddHours(2), resolved = false, state = "Pending"},
                 new DamageHistoryDTO { Id = Guid.NewGuid(), driverID = Guid.NewGuid(), lplateNum = "2345", time = DateTime.Now, resolved = true, state = "Damaged"}
 
             };
 
+        private static readonly ClockHistoryDTO[] _clockhistories =
+{
+                new ClockHistoryDTO { Id = Guid.NewGuid(), driverID = Guid.NewGuid(), lplateNum = "1234", time = DateTime.Now, state = "In"},
+                new ClockHistoryDTO { Id = Guid.NewGuid(), driverID = Guid.NewGuid(), lplateNum = "2345", time = DateTime.Now.AddHours(2), state = "In"},
+                new ClockHistoryDTO { Id = Guid.NewGuid(), driverID = Guid.NewGuid(), lplateNum = "2345", time = DateTime.Now, state = "Out"}
+
+            };
+
+
+
         private static readonly VehicleDTO[] _vehicles =
             {
-                new VehicleDTO { licenseNum = "1234", make = _makes[0], model = "Corsa", colour = "Red", state = "In", active = true, damageHistory = _damagehistories.Where(x => x.lplateNum == "1234")},
-                new VehicleDTO { licenseNum = "2345", make = _makes[1], model = "Corsa", colour = "Blue", state= "Out", active = true,  damageHistory = _damagehistories.Where(x => x.lplateNum == "2345")},
-                new VehicleDTO { licenseNum = "3456", make = _makes[1], model = "Fiesta", colour = "Green", state = "In", active = true, damageHistory = _damagehistories.Where(x => x.lplateNum == "3456")},
-                new VehicleDTO { licenseNum = "4567", make = _makes[2], model = "Fiesta", colour = "Black", state = "In", active = true, damageHistory = _damagehistories.Where(x => x.lplateNum == "4567") },
-                new VehicleDTO { licenseNum = "9999", make = _makes[2], model = "Fiesta", colour = "White", state =" In", active = false, damageHistory = _damagehistories.Where(x => x.lplateNum == "9999") },
+                new VehicleDTO { licenseNum = "1234", make = _makes[0], model = "Corsa", colour = "Red", state = "In", active = true},
+                new VehicleDTO { licenseNum = "2345", make = _makes[1], model = "Corsa", colour = "Blue", state= "Out", active = true},
+                new VehicleDTO { licenseNum = "3456", make = _makes[1], model = "Fiesta", colour = "Green", state = "In", active = true},
+                new VehicleDTO { licenseNum = "4567", make = _makes[2], model = "Fiesta", colour = "Black", state = "In", active = true },
+                new VehicleDTO { licenseNum = "9999", make = _makes[2], model = "Fiesta", colour = "White", state =" In", active = false }
             };
 
 
@@ -65,6 +75,20 @@ namespace VehicleDamage_FrontEnd.Services.BEService
             }
 
             return Task.FromResult(vehicles);
+        }
+
+        public Task<IEnumerable<ClockHistoryDTO>> GetClockHistoriesAsync(string lplateNum) 
+        {
+            var histories = _clockhistories.Where(x => x.lplateNum == lplateNum);
+
+            return Task.FromResult(histories);
+        }
+
+        public Task<IEnumerable<DamageHistoryDTO>> GetDamageAsync(string lplateNum) 
+        {
+            var histories = _damagehistories.Where(x => x.lplateNum == lplateNum);
+
+            return Task.FromResult(histories);
         }
 
 

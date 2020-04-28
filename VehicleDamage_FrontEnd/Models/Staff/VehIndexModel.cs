@@ -79,6 +79,7 @@ namespace VehicleDamage_FrontEnd.Models.Staff
             tempList.Add("All");
             tempList.Add("In");
             tempList.Add("Out");
+            tempList.Add("Under Investigation");
             return tempList.AsEnumerable();
         }
 
