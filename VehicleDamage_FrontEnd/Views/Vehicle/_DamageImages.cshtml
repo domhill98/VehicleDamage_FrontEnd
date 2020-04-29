@@ -10,6 +10,6 @@ else
 {
     foreach (VehicleDamage_FrontEnd.Models.DTOs.ImageDTO image in Model)
     {
-        <img src="@image.imageStream" width="291" height="285" />
+        <img src="@image.imageFile.OpenReadStream()" width="291" height="285" />
     }
 }

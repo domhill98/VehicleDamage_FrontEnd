@@ -20,7 +20,7 @@ namespace VehicleDamage_FrontEnd.Services.BEService
 
         private static readonly DamageHistoryDTO[] _damagehistories =
     {
-                new DamageHistoryDTO { Id = Guid.NewGuid(), driverID = Guid.NewGuid(), lplateNum = "1234", time = DateTime.Now, resolved = false, state = "Pending"},
+                new DamageHistoryDTO { Id = Guid.NewGuid(), driverID = Guid.NewGuid(), lplateNum = "1234", time = DateTime.Now, resolved = true, state = "Damaged"},
                 new DamageHistoryDTO { Id = Guid.NewGuid(), driverID = Guid.NewGuid(), lplateNum = "2345", time = DateTime.Now.AddHours(2), resolved = false, state = "Pending"},
                 new DamageHistoryDTO { Id = Guid.NewGuid(), driverID = Guid.NewGuid(), lplateNum = "2345", time = DateTime.Now, resolved = true, state = "Damaged"}
 
@@ -38,7 +38,7 @@ namespace VehicleDamage_FrontEnd.Services.BEService
 
         private static readonly VehicleDTO[] _vehicles =
             {
-                new VehicleDTO { licenseNum = "1234", make = _makes[0], model = "Corsa", colour = "Red", state = "In", active = true},
+                new VehicleDTO { licenseNum = "1234", make = _makes[0], model = "Corsa", colour = "Red", state = "Out", active = true},
                 new VehicleDTO { licenseNum = "2345", make = _makes[1], model = "Corsa", colour = "Blue", state= "Out", active = true},
                 new VehicleDTO { licenseNum = "3456", make = _makes[1], model = "Fiesta", colour = "Green", state = "In", active = true},
                 new VehicleDTO { licenseNum = "4567", make = _makes[2], model = "Fiesta", colour = "Black", state = "In", active = true },

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 using VehicleDamage_FrontEnd.Models;
 using VehicleDamage_FrontEnd.Models.Clock;
 using VehicleDamage_FrontEnd.Models.DTOs;
@@ -53,7 +55,7 @@ namespace VehicleDamage_FrontEnd.Controllers
                     return View(model);
                 }
                 //If there are any currently unresolved damage cases on the vehicle
-                else if (dto.state != "Under Investigation")
+                else if (dto.state == "Under Investigation")
                 {
                     ModelState.AddModelError("vehicle.licenceNum", "Vehicle currently unavailable due to potential damages. Please contact a member of staff.");
                     return View(model);
@@ -110,14 +112,13 @@ namespace VehicleDamage_FrontEnd.Controllers
                 int count = 0;
                 foreach (IFormFile img in cModel.imgs)
                 {
+                       
                     count++;
-                    ImageDTO newImageDTO = ImageDTO.CreateDTO(ImageDTO.GenerateImageId(damageID, cModel.time, count.ToString()), GetByteArrayFromImage(img));
+                    ImageDTO newImageDTO = ImageDTO.CreateDTO(ImageDTO.GenerateImageId(damageID, cModel.time, count.ToString(), img), img);
                     uploadedImages.Add(newImageDTO);
-
 
                     try
                     {
-
                         //Upload Images to AI API
                         APIDTO returnApiDto = await _damageService.DamageCheckImg(newImageDTO);
 
@@ -240,16 +241,5 @@ namespace VehicleDamage_FrontEnd.Controllers
 
 
 
-
-
-        //This snippet taken from https://stackoverflow.com/questions/35379309/how-to-upload-files-in-asp-net-core
-        private byte[] GetByteArrayFromImage(IFormFile img)
-        {
-            using (var target = new MemoryStream())
-            {
-                img.CopyTo(target);
-                return target.ToArray();
-            }
-        }
     }
 }

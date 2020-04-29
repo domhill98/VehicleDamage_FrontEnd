@@ -57,8 +57,13 @@ namespace VehicleDamage_FrontEnd
 
 
                 services.AddTransient<IBEService, FakeBEService>();
-                services.AddTransient<IBlobService, FakeBlobService>();
 
+                //services.AddTransient<IBlobService, FakeBlobService>();
+                services.AddScoped<IBlobService>(s =>
+                {
+                    var httpClientFactory = s.GetRequiredService<IHttpClientFactory>();
+                    return new BlobService();
+                });
             }
             else
             {
@@ -68,17 +73,17 @@ namespace VehicleDamage_FrontEnd
                     return new DamageService(httpClientFactory.CreateClient("RetryConnection"));
                 });
 
-                //services.AddScoped<IBEService>(s =>
-                //{
-                //    var httpClientFactory = s.GetRequiredService<IHttpClientFactory>();
-                //    return new BEService(httpClientFactory.CreateClient("RetryConnection"));
-                //});
+                services.AddScoped<IBEService>(s =>
+                {
+                    var httpClientFactory = s.GetRequiredService<IHttpClientFactory>();
+                    return new BEService(httpClientFactory.CreateClient("RetryConnection"));
+                });
 
-                //services.AddScoped<IBlobService>(s =>
-                //{
-                //    var httpClientFactory = s.GetRequiredService<IHttpClientFactory>();
-                //    return new BlobService(httpClientFactory.CreateClient("RetryConnection"));
-                //});
+                services.AddScoped<IBlobService>(s =>
+                {
+                    var httpClientFactory = s.GetRequiredService<IHttpClientFactory>();
+                    return new BlobService();
+                });
 
 
 

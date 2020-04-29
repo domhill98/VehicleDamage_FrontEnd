@@ -10,40 +10,18 @@ namespace VehicleDamage_FrontEnd.Services.DamageService
 {
     public class DamageService : IDamageService
     {
+        //https://www.customvision.ai/projects
 
         private readonly HttpClient _client;
 
         public DamageService(HttpClient client)
         {
-            client.BaseAddress = new System.Uri("https://southcentralus.api.cognitive.microsoft.com/customvision/v3.0/Prediction/b87c0956-6127-44ff-a4e1-154537cb1c51/classify/iterations/VehicleDamageModel/");
+            client.BaseAddress = new System.Uri("https://uksouth.api.cognitive.microsoft.com/customvision/v3.0/Prediction/f528cff8-6e3b-4d6c-a2ab-bba50697e840/classify/iterations/Iteration1/image");
             client.Timeout = TimeSpan.FromSeconds(5);
-            client.DefaultRequestHeaders.Add("Prediction-Key", "859168816d564b68a63ca406d660e39e");
+            client.DefaultRequestHeaders.Add("Prediction-Key", "0ade69a8921c4e9293a1b1e41c6bc19f");
             _client = client;
 
         }
-
-        //public async Task<APIDTO> DamageCheckUrl(APIModel model)
-        //{
-        //    _client.DefaultRequestHeaders.Add("Accept", "application/json");
-
-        //    string uri = "url";
-
-        //    var json = JsonConvert.SerializeObject(model);
-        //    var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
-
-        //    var response = await _client.PostAsync(uri, stringContent);
-        //    if (response.StatusCode != HttpStatusCode.OK)
-        //    {
-        //        string error = response.Content.ToString();
-
-        //        return null;
-        //    }
-        //    response.EnsureSuccessStatusCode();
-
-        //    APIDTO responseDto = await response.Content.ReadAsAsync<APIDTO>();
-
-        //    return responseDto;
-        //}
 
         public async Task<APIDTO> DamageCheckImg(ImageDTO imgDTO)
         {
@@ -51,7 +29,7 @@ namespace VehicleDamage_FrontEnd.Services.DamageService
 
             string uri = "image";
 
-            ByteArrayContent byteContent = new ByteArrayContent(imgDTO.imageStream);
+            ByteArrayContent byteContent = new ByteArrayContent(ImageDTO.GetByteArrayFromImage(imgDTO.imageFile));
 
             var response = await _client.PostAsync(uri, byteContent);
             if (response.StatusCode != HttpStatusCode.OK)

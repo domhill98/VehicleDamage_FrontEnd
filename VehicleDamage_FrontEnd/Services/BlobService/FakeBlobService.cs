@@ -13,8 +13,8 @@ namespace VehicleDamage_FrontEnd.Services.BlobService
         private static readonly ImageDTO[] _images =
             {
 
-                new ImageDTO { Id = "image1", imageStream = null},
-                new ImageDTO { Id = "image2", imageStream = null}
+                new ImageDTO { Id = "image1", imageFile = null},
+                new ImageDTO { Id = "image2", imageFile = null}
         };
 
 
