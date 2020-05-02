@@ -107,120 +107,71 @@ namespace VehicleDamage_FrontEnd.Controllers
             {
                 Guid damageID = Guid.NewGuid();
 
-                //Create ImageDTO for each image
-                List<ImageDTO> uploadedImages = new List<ImageDTO>();
+                //Create ImageDTO list so each can be added ready to be uploaded post loop.
+                List<ImageDTO> vehicleImages = new List<ImageDTO>();
+
+                //Set state of tracking = null
+                string verdictTracker = "Undamaged";
                 int count = 0;
-                foreach (IFormFile img in cModel.imgs)
+
+                //Loop through uploads
+                foreach(IFormFile img in cModel.imgs) 
                 {
-                       
                     count++;
                     ImageDTO newImageDTO = ImageDTO.CreateDTO(ImageDTO.GenerateImageId(damageID, cModel.time, count.ToString(), img), img);
-                    uploadedImages.Add(newImageDTO);
+                    vehicleImages.Add(newImageDTO);
 
                     try
                     {
-                        //Upload Images to AI API
                         APIDTO returnApiDto = await _damageService.DamageCheckImg(newImageDTO);
 
                         //Validate the difference is close enough between the two tags and return the appropraite view.
                         double damagedGuess = returnApiDto.predictions.FirstOrDefault(x => x.tagName == "Damaged").probability;
                         double wholeGuess = returnApiDto.predictions.FirstOrDefault(x => x.tagName == "Whole").probability;
 
-
                         //See if both results are over 0.1 as this is too uncertain. i.e level of ucnertainty
                         if (wholeGuess >= 0.1 && damagedGuess >= 0.1)
                         {
-                            //Set the clock/state so the correct response can be displayed in the view. 
-                            cModel.clock = "Inconclusive";
-
-                            //As Uncertain, add to the damage db                                             
-                            DamageHistoryDTO newDamageDTO = DamageHistoryDTO.CreateDTO(DamageHistoryModel.CreateModel(cModel, damageID, driverID));
-                            updateResponse = await _vehicleService.InsertDamageHistoryAsync(newDamageDTO);
-                            if (updateResponse != "Success")
+                            if(verdictTracker == "Undamaged") 
                             {
-                                return RedirectToAction("ClockVehicle");
+                                verdictTracker = "Inconclusive";
                             }
-
-                            //Save Images to the blob storage.
-                            updateResponse = await BlobService.UploadImage(newImageDTO);
-                            if (updateResponse != "Success")
-                            {
-                                return RedirectToAction("ClockVehicle");
-                            }
-
-                            //Update Vehicle with new state
-                            cModel.vehicle.state = "Under Investigation";
-                            VehicleDTO newVehDto = VehicleDTO.CreateDTO(cModel.vehicle);
-                            updateResponse = await _vehicleService.UpdateVehicleAsync(newVehDto);
-                            if (updateResponse != "Success")
-                            {
-                                return RedirectToAction("ClockVehicle");
-                            }
-
-
-                            //Return back to view as there is no point testing the rest of the images
-                            return View("ClockConfirmed", cModel);
                         }
                         //Damaged
                         else if (damagedGuess > wholeGuess)
                         {
-                            //Set the clock/state so the correct response can be displayed in the view. 
-                            cModel.clock = "Damaged";
-
-                            //As Damaged, add to the damage db                                             
-                            DamageHistoryDTO newDamageDTO = DamageHistoryDTO.CreateDTO(DamageHistoryModel.CreateModel(cModel, damageID, driverID));
-                            updateResponse = await _vehicleService.InsertDamageHistoryAsync(newDamageDTO);
-                            if (updateResponse != "Success")
-                            {
-                                return RedirectToAction("ClockVehicle");
-                            }
-
-
-                            //Save Images to the blob storage.
-                            updateResponse = await BlobService.UploadImage(newImageDTO);
-                            if (updateResponse != "Success")
-                            {
-                                return RedirectToAction("ClockVehicle");
-                            }
-
-
-                            //Update Vehicle with new state
-                            cModel.vehicle.state = "Under Investigation";
-                            VehicleDTO newVehDto = VehicleDTO.CreateDTO(cModel.vehicle);
-                            updateResponse = await _vehicleService.UpdateVehicleAsync(newVehDto);
-                            if (updateResponse != "Success")
-                            {
-                                return RedirectToAction("ClockVehicle");
-                            }
-
-                            //Return back to view as there is no point testing the rest of the images
-                            return View("ClockConfirmed", cModel);
+                            //If Damaged then overrules the above inmconclusive of a previous image
+                                verdictTracker = "Damaged";                          
                         }
-                        //If Undamaged then we dont need to save the images or the damaged db
-
-                        //Loop to next image
                     }
-                    catch
+                    catch 
                     {
-                        //If fails to reach AI API, simply show inclocusive result and staff member can decide
-                        //Set the clock/state so the correct response can be displayed in the view. 
-                        cModel.clock = "Inconclusive";
+                        verdictTracker = "Inconclusive";
+                    }
+                }
 
-                        //As Uncertain, add to the damage db                                             
+                //After loop of images, check the state
+                if (verdictTracker != "Undamaged") 
+                {
+                    try 
+                    { 
+                        if (verdictTracker == "Inconclusive") 
+                        {
+                            cModel.clock = "Inconclusive";
+                        }
+                        //Damaged
+                        else 
+                        {
+                            cModel.clock = "Damaged";
+                        }
+
+                        //Insert damage history
                         DamageHistoryDTO newDamageDTO = DamageHistoryDTO.CreateDTO(DamageHistoryModel.CreateModel(cModel, damageID, driverID));
                         updateResponse = await _vehicleService.InsertDamageHistoryAsync(newDamageDTO);
                         if (updateResponse != "Success")
                         {
                             return RedirectToAction("ClockVehicle");
                         }
-
-                        //Save Images to the blob storage.
-                        updateResponse = await BlobService.UploadImage(newImageDTO);
-                        if (updateResponse != "Success")
-                        {
-                            return RedirectToAction("ClockVehicle");
-                        }
-
 
                         //Update Vehicle with new state
                         cModel.vehicle.state = "Under Investigation";
@@ -230,7 +181,27 @@ namespace VehicleDamage_FrontEnd.Controllers
                         {
                             return RedirectToAction("ClockVehicle");
                         }
+
+                        //Loop and insert images
+                        foreach(ImageDTO img in vehicleImages) 
+                        {
+                            //Save Images to the blob storage.
+                            updateResponse = await BlobService.UploadImage(img);
+                            if (updateResponse != "Success")
+                            {
+                                return RedirectToAction("ClockVehicle");
+                            }
+                        }
+
+
+                        //Return back to view
+                        return View("ClockConfirmed", cModel);
+
                     }
+                    catch 
+                    {
+                        return RedirectToAction("ClockVehicle");
+                    }                                 
                 }
             }
             return View("ClockConfirmed", cModel);
