@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -38,11 +39,7 @@ namespace VehicleDamage_FrontEnd.Services.BlobService
                     }
                     );
             }
-
-            //Change here to be the filename
-            //string imageName = Guid.NewGuid().ToString() + "-" + Path.GetExtension(image.imageFile.FileName);
-
-            
+        
             CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(image.Id);
             cloudBlockBlob.Properties.ContentType = image.imageFile.ContentType;
 
@@ -55,6 +52,32 @@ namespace VehicleDamage_FrontEnd.Services.BlobService
 
         public async Task<IEnumerable<ImageDTO>> GetImages(string filter) 
         {
+            CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(blobString);
+            CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
+            CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference("vehicledamageblobcontainer");
+            if (await cloudBlobContainer.CreateIfNotExistsAsync())
+            {
+                await cloudBlobContainer.SetPermissionsAsync(
+                    new BlobContainerPermissions
+                    {
+                        PublicAccess = BlobContainerPublicAccessType.Blob
+                    }
+                    );
+            }
+
+            //If not, get dir of all images and filter through manually.
+            BlobContinuationToken continuationToken = null;
+            var results = new List<IListBlobItem>();
+            do
+            {
+                var response = await cloudBlobContainer.ListBlobsSegmentedAsync(prefix: filter, continuationToken);
+                continuationToken = response.ContinuationToken;
+                results.AddRange(response.Results);
+            }
+            while (continuationToken != null);
+            
+            //Now get each and pull to page
+
             return null;
         }
 
