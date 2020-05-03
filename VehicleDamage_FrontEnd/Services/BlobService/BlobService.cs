@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -50,7 +51,7 @@ namespace VehicleDamage_FrontEnd.Services.BlobService
             return "Success";
         }
 
-        public async Task<IEnumerable<ImageDTO>> GetImages(string filter) 
+        public async Task<IEnumerable<byte[]>> GetImages(string filter) 
         {
             CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(blobString);
             CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
@@ -75,10 +76,26 @@ namespace VehicleDamage_FrontEnd.Services.BlobService
                 results.AddRange(response.Results);
             }
             while (continuationToken != null);
-            
-            //Now get each and pull to page
 
-            return null;
+            //Now get each and return
+
+            List<byte[]> images = new List<byte[]>();
+
+            foreach(var blobItem in results) 
+            {
+                string imgName = blobItem.Uri.Segments.Last();
+
+                CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(imgName);
+
+                using(var ms = new MemoryStream()) 
+                {
+                    await cloudBlockBlob.DownloadToStreamAsync(ms);
+                    images.Add(ms.ToArray());
+                }
+            }
+
+
+            return images.AsEnumerable();
         }
 
 

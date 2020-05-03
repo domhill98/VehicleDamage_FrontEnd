@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VehicleDamage_FrontEnd.Models;
 using VehicleDamage_FrontEnd.Models.DTOs;
@@ -83,10 +84,11 @@ namespace VehicleDamage_FrontEnd.Controllers
             string imagePreText = ImageDTO.GenerateImagePre(damageModel.Id, damageModel.time.ToString());
 
             //Search Image DB for images with that name
-            IEnumerable<ImageDTO> foundImages = await _blobService.GetImages(imagePreText);
+            IEnumerable<byte[]> foundImages = await _blobService.GetImages(imagePreText);
 
             //Set damageModel list of images to that
             damageModel.images = foundImages;
+
 
             if (damageModel.resolved == false)
             {

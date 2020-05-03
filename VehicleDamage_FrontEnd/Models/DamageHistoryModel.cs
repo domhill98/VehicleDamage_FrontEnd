@@ -21,7 +21,7 @@ namespace VehicleDamage_FrontEnd.Models
 
         public bool resolved { get; set; }
 
-        public virtual IEnumerable<ImageDTO> images { get; set; }
+        public virtual IEnumerable<byte[]> images { get; set; }
 
 
 

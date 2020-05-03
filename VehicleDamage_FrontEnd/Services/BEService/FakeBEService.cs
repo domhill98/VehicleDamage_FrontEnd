@@ -20,9 +20,9 @@ namespace VehicleDamage_FrontEnd.Services.BEService
 
         private static readonly DamageHistoryDTO[] _damagehistories =
     {
-                new DamageHistoryDTO { Id = Guid.Parse("860ee42c-5626-4e6f-b801-2d06173bca61"), driverID = Guid.NewGuid(), lplateNum = "1234", time = DateTime.Now, resolved = true, state = "Damaged"},
-                new DamageHistoryDTO { Id = Guid.Parse("36444a8f-a6fd-403f-8e8c-674a06602c18"), driverID = Guid.NewGuid(), lplateNum = "2345", time = DateTime.Now.AddHours(2), resolved = false, state = "Pending"},
-                new DamageHistoryDTO { Id = Guid.Parse("38bf7bcc-890e-4fec-8cfe-90cc65180d8c"), driverID = Guid.NewGuid(), lplateNum = "2345", time = DateTime.Now, resolved = true, state = "Damaged"}
+                new DamageHistoryDTO { Id = Guid.Parse("860ee42c-5626-4e6f-b801-2d06173bca61"), driverID = Guid.NewGuid(), lplateNum = "1234", time = DateTime.Parse("03/May/2020 02:34:18"), resolved = true, state = "Damaged"},
+                new DamageHistoryDTO { Id = Guid.Parse("36444a8f-a6fd-403f-8e8c-674a06602c18"), driverID = Guid.NewGuid(), lplateNum = "2345", time = DateTime.Parse("03/May/2020 02:34:18"), resolved = false, state = "Pending"},
+                new DamageHistoryDTO { Id = Guid.Parse("38bf7bcc-890e-4fec-8cfe-90cc65180d8c"), driverID = Guid.NewGuid(), lplateNum = "2345", time = DateTime.Parse("03/May/2020 02:34:18"), resolved = true, state = "Damaged"}
 
             };
 

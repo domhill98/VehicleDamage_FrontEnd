@@ -1,4 +1,4 @@
-﻿@model IEnumerable<VehicleDamage_FrontEnd.Models.DTOs.ImageDTO>
+﻿@model IEnumerable<byte[]>
 
 @if (Model.Count() == 0)
 {
@@ -8,8 +8,8 @@
 }
 else
 {
-    foreach (VehicleDamage_FrontEnd.Models.DTOs.ImageDTO image in Model)
+    foreach (byte[] image in Model)
     {
-        <img src="@image.imageFile.OpenReadStream()" width="291" height="285" />
+        <img src="data:image/jpeg;base64,@Convert.ToBase64String(image)" width="291" height="285" />
     }
 }

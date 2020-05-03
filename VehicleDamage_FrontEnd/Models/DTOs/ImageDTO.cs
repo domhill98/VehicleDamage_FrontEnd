@@ -20,11 +20,31 @@ namespace VehicleDamage_FrontEnd.Models.DTOs
         {
             ImageDTO newdto = new ImageDTO()
             {
-                Id = imgID,
+                Id = imgID,              
                 imageFile = imgFile
             };
             return newdto;
         }
+
+        public static IEnumerable<ImageDTO> CreateDTOEnumerable(IEnumerable<IFormFile> files) 
+        {
+            List<ImageDTO> newList = new List<ImageDTO>();
+
+            if(files != null) 
+            {
+                foreach(IFormFile file in files) 
+                {
+                    ImageDTO dto = CreateDTO(file.FileName, file);
+                    newList.Add(dto);
+                }
+            }
+
+            return newList.AsEnumerable();
+        }
+
+
+
+
 
         public static string GenerateImageId(Guid dmgID, string dTime, string seqText, IFormFile imgFile)
         {
