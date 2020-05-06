@@ -20,7 +20,6 @@ namespace VehicleDamage_FrontEnd
     {
         private readonly IHostingEnvironment _env;
 
-
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
@@ -52,7 +51,7 @@ namespace VehicleDamage_FrontEnd
                 services.AddScoped<IDamageService>(s =>
                 {
                     var httpClientFactory = s.GetRequiredService<IHttpClientFactory>();
-                    return new DamageService(httpClientFactory.CreateClient("RetryConnection"));
+                    return new DamageService(httpClientFactory.CreateClient("RetryConnection"), Configuration);
                 });
 
 
@@ -62,7 +61,7 @@ namespace VehicleDamage_FrontEnd
                 services.AddScoped<IBlobService>(s =>
                 {
                     var httpClientFactory = s.GetRequiredService<IHttpClientFactory>();
-                    return new BlobService();
+                    return new BlobService(Configuration);
                 });
             }
             else
@@ -70,7 +69,7 @@ namespace VehicleDamage_FrontEnd
                 services.AddScoped<IDamageService>(s =>
                 {
                     var httpClientFactory = s.GetRequiredService<IHttpClientFactory>();
-                    return new DamageService(httpClientFactory.CreateClient("RetryConnection"));
+                    return new DamageService(httpClientFactory.CreateClient("RetryConnection"), Configuration);
                 });
 
                 services.AddScoped<IBEService>(s =>
@@ -82,7 +81,7 @@ namespace VehicleDamage_FrontEnd
                 services.AddScoped<IBlobService>(s =>
                 {
                     var httpClientFactory = s.GetRequiredService<IHttpClientFactory>();
-                    return new BlobService();
+                    return new BlobService(Configuration);
                 });
 
 

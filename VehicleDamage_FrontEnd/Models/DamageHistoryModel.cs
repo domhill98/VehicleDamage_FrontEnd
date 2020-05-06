@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using VehicleDamage_FrontEnd.Models.Clock;
@@ -11,14 +12,18 @@ namespace VehicleDamage_FrontEnd.Models
     {
         public Guid Id { get; set; }
 
+        [Display(Name = "Driver")]
         public Guid driverID { get; set; }
 
+        [Display(Name = "Time")]
         public DateTime time { get; set; }
 
         public string lplateNum { get; set; }
 
+        [Display(Name = "State")]
         public string state { get; set; }
 
+        [Display(Name = "Resolved")]
         public bool resolved { get; set; }
 
         public virtual IEnumerable<byte[]> images { get; set; }

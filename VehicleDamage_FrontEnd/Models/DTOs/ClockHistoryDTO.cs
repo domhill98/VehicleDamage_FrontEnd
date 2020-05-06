@@ -18,6 +18,7 @@ namespace VehicleDamage_FrontEnd.Models.DTOs
 
         public string state { get; set; }
 
+        //Create DTO
         public static ClockHistoryDTO CreateDTO(ClockModel model, Guid thisID, Guid driver)
         {
             ClockHistoryDTO newDTO = new ClockHistoryDTO()
@@ -30,9 +31,5 @@ namespace VehicleDamage_FrontEnd.Models.DTOs
             };
             return newDTO;
         }
-
-
-
-
     }
 }

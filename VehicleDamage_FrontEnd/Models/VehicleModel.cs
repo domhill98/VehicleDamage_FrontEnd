@@ -26,6 +26,7 @@ namespace VehicleDamage_FrontEnd.Models
         [Display(Name = "Colour")]
         public string colour { get; set; }
 
+        [Display(Name = "Active")]
         public bool active { get; set; }
 
         //public virtual IEnumerable<DamageHistoryDTO> damageHistory { get; set; }

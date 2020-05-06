@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,18 +13,22 @@ namespace VehicleDamage_FrontEnd.Models.Staff
 
         public List<VehicleModel> vehicleWithConcernList { get; set; }
 
-
+        [Display(Name = "Make")]
         public SelectList makeList { get; set; }
 
+        [Display(Name = "Make")]
         public Guid selectedMake { get; set; }
 
+        [Display(Name = "State")]
         public SelectList stateList { get; set; }
 
+        [Display(Name = "State")]
         public string selectedState { get; set; }
 
+        [Display(Name = "LPlate")]
         public string lPlateSearch { get; set; }
 
-
+        //Create model given the current paramaters
         public static VehIndexModel CreateModel(IEnumerable<VehicleModel> vehicles, IEnumerable<VehicleModel> concernVehicles,
             IEnumerable<MakeModel> makes,
             Guid selMake,
@@ -38,7 +43,7 @@ namespace VehicleDamage_FrontEnd.Models.Staff
             temp.Insert(0, allMake);
             makes = temp.AsEnumerable();
 
-
+            //Vehicle list passed through this gauntlet of filters
             if (vehicles != null)
             {
                 newModel.vehicleList = vehicles.ToList();
@@ -73,6 +78,7 @@ namespace VehicleDamage_FrontEnd.Models.Staff
             return newModel;
         }
 
+        //Fixed Enum States. Returns the lsit of possible states.
         private static IEnumerable<string> CreateStateList()
         {
             List<string> tempList = new List<string>();

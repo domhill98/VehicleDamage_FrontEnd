@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using VehicleDamage_FrontEnd.Models.DTOs;
@@ -10,12 +11,16 @@ namespace VehicleDamage_FrontEnd.Models
     {
         public Guid Id { get; set; }
 
+        [Display(Name = "Driver")]
         public Guid driverID { get; set; }
 
+        [Display(Name = "Date")]
         public DateTime time { get; set; }
 
+        [Display(Name = "LPlate")]
         public string lplateNum { get; set; }
 
+        [Display(Name = "State")]
         public string state { get; set; }
 
         public static ClockHistoryModel CreateModel(ClockHistoryDTO dto)

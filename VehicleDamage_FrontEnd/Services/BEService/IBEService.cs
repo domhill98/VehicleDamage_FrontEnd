@@ -7,6 +7,7 @@ using VehicleDamage_FrontEnd.Models.Staff;
 
 namespace VehicleDamage_FrontEnd.Services.BEService
 {
+    //Interface which extends to the real or fake service
     public interface IBEService
     {
         Task<VehicleDTO> GetVehicleAsync(string lplateNum);
@@ -24,6 +25,8 @@ namespace VehicleDamage_FrontEnd.Services.BEService
         Task<string> UpdateVehicleAsync(VehicleDTO vehDTO);
 
         Task<string> UpdateDamageHistoryAsync(DamageHistoryDTO dhDTO);
+
+        Task<string> InsertVehicleAsync(VehicleDTO vehDTO);
 
         Task<string> InsertClockHistoryAsync(ClockHistoryDTO hisDTO);
 

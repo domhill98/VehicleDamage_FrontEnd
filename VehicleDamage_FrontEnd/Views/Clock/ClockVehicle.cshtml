@@ -72,7 +72,7 @@ else
             <div class="row">
                 <div class="col-md-4 form-group">
                     <label asp-for="imgs" class="control-label"></label>
-                    <input asp-for="imgs" multiple required />
+                    <input asp-for="imgs" type="file" multiple required accept="image/*" />
                     <span asp-validation-for="imgs" class="text-danger"></span>
 
                 </div>

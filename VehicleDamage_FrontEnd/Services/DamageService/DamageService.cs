@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -14,23 +15,33 @@ namespace VehicleDamage_FrontEnd.Services.DamageService
 
         private readonly HttpClient _client;
 
-        public DamageService(HttpClient client)
+        /// <summary>
+        /// Default constructor for the Damage Service.
+        /// Sets the base address and adds the neccessary headers
+        /// </summary>
+        /// <param name="client"></param>
+        public DamageService(HttpClient client, IConfiguration configuration)
         {
-            client.BaseAddress = new System.Uri("https://uksouth.api.cognitive.microsoft.com/customvision/v3.0/Prediction/f528cff8-6e3b-4d6c-a2ab-bba50697e840/classify/iterations/Iteration1/image");
+            client.BaseAddress = new System.Uri(configuration.GetValue<string>("AIService:aiConnectionURL"));
             client.Timeout = TimeSpan.FromSeconds(5);
-            client.DefaultRequestHeaders.Add("Prediction-Key", "0ade69a8921c4e9293a1b1e41c6bc19f");
+            client.DefaultRequestHeaders.Add("Prediction-Key", configuration.GetValue<string>("AIService:aiConnectionKey"));
             _client = client;
 
         }
 
+        /// <summary>
+        /// Calls the AI API to check an image from damage
+        /// </summary>
+        /// <param name="imgDTO">Image model to be checked</param>
+        /// <returns>The resulting API return as a model</returns>
         public async Task<APIDTO> DamageCheckImg(ImageDTO imgDTO)
         {
             _client.DefaultRequestHeaders.Add("Accept", "application/octet-stream");
 
             string uri = "image";
-
+            //Extract the byte array content from the image
             ByteArrayContent byteContent = new ByteArrayContent(ImageDTO.GetByteArrayFromImage(imgDTO.imageFile));
-
+            //Post the raw byte array to the API
             var response = await _client.PostAsync(uri, byteContent);
             if (response.StatusCode != HttpStatusCode.OK)
             {
@@ -39,11 +50,10 @@ namespace VehicleDamage_FrontEnd.Services.DamageService
                 return null;
             }
             response.EnsureSuccessStatusCode();
-
+            //Read the response into an API Model
             APIDTO responseDto = await response.Content.ReadAsAsync<APIDTO>();
 
             return responseDto;
-
         }
 
 

@@ -11,7 +11,7 @@ namespace VehicleDamage_FrontEnd.Models
         public virtual IEnumerable<ClockHistoryModel> clockHistory { get; set; }
         public virtual IEnumerable<DamageHistoryModel> damageHistory { get; set; }
 
-        public new static VehicleDetailModel CreateModel(VehicleDTO dto, IEnumerable<DamageHistoryDTO> dmgHistory, IEnumerable<ClockHistoryDTO> clkHistory)
+        public static VehicleDetailModel CreateModel(VehicleDTO dto, IEnumerable<DamageHistoryDTO> dmgHistory, IEnumerable<ClockHistoryDTO> clkHistory)
         {
             VehicleDetailModel newModel = new VehicleDetailModel()
             {

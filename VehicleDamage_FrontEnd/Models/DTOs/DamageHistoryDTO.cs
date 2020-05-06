@@ -19,7 +19,6 @@ namespace VehicleDamage_FrontEnd.Models.DTOs
 
         public bool resolved { get; set; }
 
-
         public static DamageHistoryDTO CreateDTO(DamageHistoryModel model)
         {
             DamageHistoryDTO newDTO = new DamageHistoryDTO()

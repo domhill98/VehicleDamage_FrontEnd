@@ -39,7 +39,7 @@ namespace VehicleDamage_FrontEnd.Services.BEService
         private static readonly VehicleDTO[] _vehicles =
             {
                 new VehicleDTO { licenseNum = "1234", make = _makes[0], model = "Corsa", colour = "Red", state = "Out", active = true},
-                new VehicleDTO { licenseNum = "2345", make = _makes[1], model = "Corsa", colour = "Blue", state= "Out", active = true},
+                new VehicleDTO { licenseNum = "2345", make = _makes[1], model = "Corsa", colour = "Blue", state= "Under Investigation", active = true},
                 new VehicleDTO { licenseNum = "3456", make = _makes[1], model = "Fiesta", colour = "Green", state = "In", active = true},
                 new VehicleDTO { licenseNum = "4567", make = _makes[2], model = "Fiesta", colour = "Black", state = "In", active = true },
                 new VehicleDTO { licenseNum = "9999", make = _makes[2], model = "Fiesta", colour = "White", state =" In", active = false }
@@ -106,6 +106,11 @@ namespace VehicleDamage_FrontEnd.Services.BEService
                 return Task.FromResult("dto passed as null");
             }
 
+            return Task.FromResult("Success");
+        }
+
+        public Task<string> InsertVehicleAsync(VehicleDTO vehDTO) 
+        {
             return Task.FromResult("Success");
         }
 

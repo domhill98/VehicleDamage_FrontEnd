@@ -20,9 +20,6 @@ namespace VehicleDamage_FrontEnd.Models.DTOs
 
         public bool active { get; set; }
 
-        //public virtual IEnumerable<DamageHistoryDTO> damageHistory { get; set; }
-
-        //public virtual IEnumerable<ClockHistoryDTO> clockHistory { get; set; }
         public static VehicleDTO CreateDTO(VehicleModel vehmodel)
         {
             VehicleDTO newDTO = new VehicleDTO()

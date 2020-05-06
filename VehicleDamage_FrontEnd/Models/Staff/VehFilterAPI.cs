@@ -13,6 +13,7 @@ namespace VehicleDamage_FrontEnd.Models.Staff
 
         public string lPlate { get; set; }
 
+        //Create model to pass to the api for each filterable field
         public static VehFilterAPI CreateModel(string st, Guid mk, string plt)
         {
             if ((st == null || st == "All") && mk == Guid.Parse("00000000-0000-0000-0000-000000000000") && plt == null)

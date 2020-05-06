@@ -1,0 +1,53 @@
+﻿@model VehicleDamage_FrontEnd.Models.VehicleModel
+@{
+    ViewData["Title"] = "VehicleCreate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create Vehicle</h1>
+<hr />
+
+
+<form asp-action="CreateVehicle">
+    <div class="row">
+        <div class="col-md-4 form-group">
+            <label asp-for="licenceNum" class="control-label"></label>
+            <input asp-for="licenceNum" class="form-control" required/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 form-group">
+            <label asp-for="make" class="control-label"></label>
+            @Html.DropDownListFor(x => x.make.id, new SelectList(ViewBag.selList, "id", "name"))
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 form-group">
+            <label asp-for="model" class="control-label"></label>
+            <input asp-for="model" class="form-control" required/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 form-group">
+            <label asp-for="colour" class="control-label"></label>
+            <input asp-for="colour" class="form-control" required/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 form-group">
+            <label asp-for="active" class="control-label"></label>
+            <input asp-for="active" class="form-control" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 form-group">
+            <input type="submit" value="Confirm" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
+
+<hr />
+<div>
+    <a asp-action="Index">Back</a>
+</div>

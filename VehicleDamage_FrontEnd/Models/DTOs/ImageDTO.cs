@@ -11,10 +11,7 @@ namespace VehicleDamage_FrontEnd.Models.DTOs
     {
         public string Id { get; set; }
 
-        //public byte[] imageStream { get; set; }
-
         public IFormFile imageFile { get; set; }
-
 
         public static ImageDTO CreateDTO(string imgID, IFormFile imgFile)
         {
@@ -42,16 +39,14 @@ namespace VehicleDamage_FrontEnd.Models.DTOs
             return newList.AsEnumerable();
         }
 
-
-
-
-
+        //Generate the imageID to save to blob storage. Uses formula "{dmgID}_{date}_{count}" to allow easily refernced later.
         public static string GenerateImageId(Guid dmgID, string dTime, string seqText, IFormFile imgFile)
         {
 
             return GenerateImagePre(dmgID, dTime) + "_" + seqText + Path.GetExtension(imgFile.FileName); ;
         }
 
+        //Generates the president text. This is seperate because it is also used to generate search paramter.
         public static string GenerateImagePre(Guid dmgId, string dTime)
         {
             //Convert datetime from / amd such to desired format for file

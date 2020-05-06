@@ -22,11 +22,14 @@ namespace VehicleDamage_FrontEnd.Models.Clock
 
         public VehicleModel vehicle { get; set; }
 
+        //Create model from dto
         public static ClockModel CreateModel(VehicleDTO inVehicle)
         {
             ClockModel newModel = new ClockModel()
             {
+                //Format in given string
                 time = DateTime.Now.ToString("dd/MMM/yyyy HH:mm:ss"),
+                //Reverse the current state of the vehicle to clock out.
                 clock = inVehicle.state == "In" ? "Out" : "In",
                 vehicle = VehicleModel.CreateModel(inVehicle)
             };

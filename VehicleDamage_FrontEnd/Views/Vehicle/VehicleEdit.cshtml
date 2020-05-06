@@ -1,0 +1,61 @@
+﻿@model VehicleDamage_FrontEnd.Models.VehicleModel
+@{
+    ViewData["Title"] = "VehicleEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit Vehicle</h1>
+<hr />
+
+
+<form asp-action="EditVehicle">
+    <div class="row">
+        <div class="col-md-4 form-group">
+            <label asp-for="licenceNum" class="control-label"></label>
+            <input asp-for="licenceNum" class="form-control"  readonly="readonly"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 form-group">
+            <label asp-for="make" class="control-label"></label>
+            <input asp-for="make.name" class="form-control" readonly="readonly"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 form-group">
+            <label asp-for="model" class="control-label"></label>
+            <input asp-for="model" class="form-control" required/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 form-group">
+            <label asp-for="colour" class="control-label"></label>
+            <input asp-for="colour" class="form-control" required/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 form-group">
+            <label asp-for="state" class="control-label"></label>
+            <input asp-for="state" class="form-control"  readonly="readonly"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 form-group">
+            <label asp-for="active" class="control-label"></label>
+            <input asp-for="active" class="form-control" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 form-group">
+            <input type="submit" value="Confirm" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
+
+<div>
+    @Html.ActionLink("Back to Vehicle", "Details", "Vehicle", new
+    {
+        lPlate = Model.licenceNum
+    })
+</div>

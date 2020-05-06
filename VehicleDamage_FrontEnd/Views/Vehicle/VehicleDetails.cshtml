@@ -9,7 +9,7 @@
 
 <div>
     <h4>@Html.DisplayFor(model => model.licenceNum)</h4>
-    <div class="w3-right">@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ })</div>
+    <div class="w3-right">@Html.ActionLink("Edit", "EditVehicle", new { lPlate = Model.licenceNum })</div>
     <hr />
 
     <dl class="row">
